@@ -13,7 +13,7 @@ gem 'devise'
 gem 'devise-jwt'
 gem 'pundit'
 gem 'sidekiq'
-gem 'redis', '~> 5.3.0'
+gem 'redis', '~> 5.4.0'
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
