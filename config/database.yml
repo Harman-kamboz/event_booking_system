@@ -1,0 +1,44 @@
+default: &default
+  adapter: postgresql
+  pool: 20
+  timeout: 5000
+  user: harman
+  password: "password"
+  host: localhost #db
+
+development:
+  <<: *default
+  database: development_ticket
+  host: localhost
+
+test:
+  <<: *default
+  database: development_ticket_1
+  user: harman
+  password: "password"
+  host: localhost
+
+staging:
+  <<: *default
+  database: <%=ENV['DB_NAME']%>
+  user: <%=ENV['DB_USER_NAME']%>
+  password: <%=ENV['DB_PASSWORD']%>
+  host: <%=ENV['DB_HOST']%>
+  port: <%=ENV['DB_PORT']%>
+
+uat:
+  <<: *default
+  database: <%=ENV['DB_NAME']%>
+  user: <%=ENV['DB_USER_NAME']%>
+  password: <%=ENV['DB_PASSWORD']%>
+  host: <%=ENV['DB_HOST']%>
+  port: <%=ENV['DB_PORT']%>
+
+production:
+  <<: *default
+  pool: 120
+  database: <%=ENV['DB_NAME']%>
+  user: <%=ENV['DB_USER_NAME']%>
+  password: <%=ENV['DB_PASSWORD']%>
+  host: <%=ENV['DB_HOST']%>
+  port: <%=ENV['DB_PORT']%>
