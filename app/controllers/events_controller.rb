@@ -1,18 +1,21 @@
 class EventsController < ApplicationController
+  include Pundit
   before_action :authenticate_user!
-  before_action :authorize_event_organizer, only: [:create, :update]
 
   def create
-    event = current_user.event_organizer.events.create!(event_params)
+    @event = current_user.event_organizer.events.create!(event_params)
+    authorize @event
     render json: event, status: :created
   end
 
   def index
-    render json: Event.all
+    events = policy_scope(Event)
+    render json: events
   end
 
   def update
     @event = Event.find(params[:id])
+    authorize @event
     if @event.update(event_params)
       EventUpdateNotificationJob.perform_later(@event.id)
       render json: { message: 'Event updated! Notifications will be sent.' }
@@ -26,9 +29,5 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(:name, :date, :venue)
-  end
-
-  def authorize_event_organizer
-    render json: { error: 'Not Authorized' }, status: :forbidden unless current_user.organizer?
   end
 end
